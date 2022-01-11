@@ -2,6 +2,8 @@ package com.sielee.edvora.ui
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,17 +46,23 @@ class Homepage : Fragment() {
         sharedPreferences = requireActivity().getSharedPreferences("preference",Context.MODE_PRIVATE)
 
         viewModel = ViewModelProvider(this).get(HomepageViewModel::class.java)
-        viewModel.productsList.observe(viewLifecycleOwner,{productList ->
-            Log.d(TAG, "$productList")
-            val productsList = productList.groupBy(Product::product_name).entries.map {
-                ProductCategory(it.key,it.value)
-            }
-            Log.d(TAG, "$productsList")
-            if (adapter.currentList.isEmpty()){
-                adapter.submitList(productsList)
-            }
-            if (adapter.currentList.isNotEmpty()) binding.pbLoading.visibility = View.GONE
-        })
+        if (!isNetworkAvailabale(requireContext())){
+            binding.pbLoading.visibility = View.GONE
+            Toast.makeText(requireContext(),"No internet connection!",Toast.LENGTH_LONG).show()
+        }else {
+            viewModel.productsList.observe(viewLifecycleOwner, { productList ->
+                Log.d(TAG, "$productList")
+                val productsList = productList.groupBy(Product::product_name).entries.map {
+                    ProductCategory(it.key, it.value)
+                }
+                Log.d(TAG, "$productsList")
+                if (adapter.currentList.isEmpty()) {
+
+                    adapter.submitList(productsList)
+                }
+                if (adapter.currentList.isNotEmpty()) binding.pbLoading.visibility = View.GONE
+            })
+        }
         binding.btnFilter.setOnClickListener {
             showFilterDialog()
 
@@ -178,6 +186,12 @@ class Homepage : Fragment() {
             }
         })
 
+    }
+
+    fun isNetworkAvailabale(context: Context): Boolean {
+        val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        var activeNetworkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
+        return activeNetworkInfo!=null && activeNetworkInfo.isConnectedOrConnecting
     }
 
 
