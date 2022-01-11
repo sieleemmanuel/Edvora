@@ -11,4 +11,5 @@
     <string name="cities_label">City</string>
     <string name="products_label">Product</string>
     <string name="states_label">State</string>
+    <string name="btn_clear_filter_label">clear filter</string>
 </resources>

@@ -19,7 +19,12 @@ class HomepageViewModel:ViewModel() {
 
     private fun getProducts(){
         viewModelScope.launch {
-            _productsList.value = ProductApi.apiService.getProducts()
+            try {
+                _productsList.value = ProductApi.apiService.getProducts()
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
         }
 
     }

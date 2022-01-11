@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.sielee.edvora.data.models.Product
 import com.sielee.edvora.data.models.ProductCategory
 import com.sielee.edvora.databinding.ProductCategoryItemBinding
 
-class ProductCategoryAdapter:androidx.recyclerview.widget.ListAdapter<ProductCategory,ProductCategoryAdapter.CategoryViewHolder>(DiffCallback()) {
+class ProductCategoryAdapter:ListAdapter<ProductCategory,ProductCategoryAdapter.CategoryViewHolder>(DiffCallback()) {
     class CategoryViewHolder(private val binding: ProductCategoryItemBinding):RecyclerView.ViewHolder(binding.root) {
         fun bind(category: ProductCategory?) {
             binding.tvProductCategory.text = category?.productCategory
