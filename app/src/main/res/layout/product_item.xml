@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="260dp"
-    android:layout_height="wrap_content"
+    android:layout_width="210dp"
+    android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/black"
     app:cardCornerRadius="10dp"
@@ -10,38 +10,40 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imageCardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:id="@+id/imgProduct"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                tools:srcCompat="@tools:sample/avatars"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/product_image"
                 android:scaleType="centerCrop"
-                android:contentDescription="@string/product_image" />
-        </com.google.android.material.card.MaterialCardView>
+                tools:srcCompat="@tools:sample/avatars" />
 
+        </com.google.android.material.card.MaterialCardView>
 
 
         <TextView
             android:id="@+id/tvProductName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="93dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:ellipsize="end"
             android:text="@string/hint_product_name"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageCardView"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,9 +53,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:ellipsize="end"
             android:text="@string/hint_brand_name"
             android:textColor="@color/purple_700"
-            android:textSize="16sp"
+            android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="@+id/tvProductName"
             app:layout_constraintStart_toStartOf="@+id/tvProductName"
             app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
@@ -62,53 +65,73 @@
             android:id="@+id/tvProductCost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="$29.99"
+            android:layout_marginTop="11dp"
+            android:text="29.99"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageCardView"
+            android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="@+id/tvBrandName"
-            app:layout_constraintStart_toStartOf="@+id/tvBrandName" />
+            app:layout_constraintStart_toEndOf="@+id/tvDollarSign"
+            app:layout_constraintTop_toBottomOf="@+id/tvBrandName" />
 
         <TextView
             android:id="@+id/tvProductLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:ellipsize="end"
             android:text="@string/hint_location"
             android:textColor="@color/purple_700"
-            android:textSize="16sp"
-            android:ellipsize="end"
-            app:layout_constraintEnd_toEndOf="@+id/imageCardView"
+            android:textSize="13sp"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/tvDateLabel"
             app:layout_constraintStart_toStartOf="@+id/imageCardView"
             app:layout_constraintTop_toBottomOf="@+id/imageCardView" />
-
-        <TextView
-            android:id="@+id/tvProductDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
-            android:text="@string/hint_product_description"
-            android:textColor="@color/purple_700"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvProductLocation"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductLocation" />
 
         <TextView
             android:id="@+id/tvProductDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="@string/hint_date_10_12_2021"
             android:textColor="@color/purple_700"
-            android:textSize="16sp"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/tvProductLocation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvProductCost"
+            app:layout_constraintStart_toEndOf="@+id/tvDateLabel"
             app:layout_constraintTop_toTopOf="@+id/tvProductLocation" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        <TextView
+            android:id="@+id/tvProductDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/hint_product_description"
+            android:textColor="@color/purple_700"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvProductDate"
+            app:layout_constraintStart_toStartOf="@+id/tvProductLocation"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductLocation" />
+
+        <TextView
+            android:id="@+id/tvDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textColor="@color/purple_700"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProductDate"
+            app:layout_constraintStart_toStartOf="@+id/tvDollarSign"
+            app:layout_constraintTop_toTopOf="@+id/tvProductDate" />
+
+        <TextView
+            android:id="@+id/tvDollarSign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="$ "
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProductCost"
+            app:layout_constraintStart_toStartOf="@+id/tvBrandName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

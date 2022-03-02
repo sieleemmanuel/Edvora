@@ -4,13 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/img_background.xml" value="0.22760416666666666" />
+        <entry key="app/src/main/res/drawable/polygon_27.xml" value="0.50625" />
+        <entry key="app/src/main/res/drawable/rectangle_1.xml" value="0.54625" />
+        <entry key="app/src/main/res/drawable/rectangle_background.xml" value="0.50625" />
         <entry key="app/src/main/res/drawable/rounded_corners.xml" value="0.34140625" />
+        <entry key="app/src/main/res/drawable/vector_104.xml" value="0.50625" />
+        <entry key="app/src/main/res/drawable/vector_107.xml" value="0.50625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/filter_dialog.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_homepage.xml" value="0.1396628826969384" />
+        <entry key="app/src/main/res/layout/fragment_homepage.xml" value="0.33" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/product_category_item.xml" value="0.2109375" />
-        <entry key="app/src/main/res/layout/product_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/product_category_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/product_item.xml" value="0.9" />
       </map>
     </option>
   </component>

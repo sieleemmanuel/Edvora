@@ -14,14 +14,11 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="111dp"
+                android:layout_height="42dp"
                 android:text="@string/text_edvora"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="@color/teal_700"
                 android:textSize="35sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
 
@@ -30,14 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.03" />
+                app:layout_constraintGuide_begin="22dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
+                app:layout_constraintGuide_begin="29dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
@@ -46,29 +43,39 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="1.0" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btnFilter"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="168.45dp"
+                android:layout_height="37.5dp"
+                android:layout_marginTop="22dp"
+                android:paddingTop="6dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="13.31dp"
                 android:drawableEnd="@android:drawable/arrow_down_float"
                 android:text="Filters"
+                android:background="@drawable/rectangle_background"
+                android:textColor="@color/white"
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 app:cornerRadius="5dp"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                android:lineHeight="21.09dp"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btnClearFilters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_width="84dp"
+                android:layout_height="30dp"
+                android:paddingStart="5dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="4dp"
                 android:text="@string/btn_clear_filter_label"
                 android:textAllCaps="false"
+                android:background="@drawable/rectangle_background"
+                android:layout_marginEnd="10dp"
                 android:textSize="16sp"
-                app:cornerRadius="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toTopOf="@+id/btnFilter" />
 
@@ -76,7 +83,7 @@
                 android:id="@+id/rvProducts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="22.5dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -85,14 +92,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnFilter"
                 tools:itemCount="20"
                 tools:listitem="@layout/product_category_item" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineCenter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.45"
-               />
 
             <ProgressBar
                 android:id="@+id/pbLoading"
@@ -104,4 +103,6 @@
                 app:layout_constraintStart_toStartOf="@+id/rvProducts"
                 app:layout_constraintTop_toTopOf="@+id/rvProducts" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </ScrollView>

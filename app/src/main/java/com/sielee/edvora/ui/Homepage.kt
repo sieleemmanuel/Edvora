@@ -29,27 +29,27 @@ class Homepage : Fragment() {
 
     lateinit var binding: FragmentHomepageBinding
     lateinit var viewModel: HomepageViewModel
-    lateinit var adapter:ProductCategoryAdapter
+    lateinit var adapter: ProductCategoryAdapter
     private val TAG = "HomePage"
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentHomepageBinding.inflate(inflater,container,false)
+        binding = FragmentHomepageBinding.inflate(inflater, container, false)
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         adapter = ProductCategoryAdapter()
         binding.rvProducts.adapter = adapter
 
-        sharedPreferences = requireActivity().getSharedPreferences("preference",Context.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences("preference", Context.MODE_PRIVATE)
 
         viewModel = ViewModelProvider(this).get(HomepageViewModel::class.java)
-        if (!isNetworkAvailabale(requireContext())){
+        if (!isNetworkAvailable(requireContext())) {
             binding.pbLoading.visibility = View.GONE
-            Toast.makeText(requireContext(),"No internet connection!",Toast.LENGTH_LONG).show()
-        }else {
+            Toast.makeText(requireContext(), "No internet connection!", Toast.LENGTH_LONG).show()
+        } else {
             viewModel.productsList.observe(viewLifecycleOwner, { productList ->
                 Log.d(TAG, "$productList")
                 val productsList = productList.groupBy(Product::product_name).entries.map {
@@ -68,10 +68,10 @@ class Homepage : Fragment() {
 
         }
         binding.btnClearFilters.setOnClickListener {
-            viewModel.productsList.observe(viewLifecycleOwner,{productList ->
+            viewModel.productsList.observe(viewLifecycleOwner, { productList ->
                 Log.d(TAG, "$productList")
                 val productsList = productList.groupBy(Product::product_name).entries.map {
-                    ProductCategory(it.key,it.value)
+                    ProductCategory(it.key, it.value)
                 }
                 Log.d(TAG, "$productsList")
 
@@ -79,100 +79,91 @@ class Homepage : Fragment() {
                 if (adapter.currentList.isNotEmpty()) binding.pbLoading.visibility = View.GONE
             })
         }
-
-
         return binding.root
     }
 
 
-    private fun showFilterDialog(){
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.filter_dialog,null)
+    private fun showFilterDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.filter_dialog, null)
 
         val filterDialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogView)
-            .setCancelable(true)
-       val alertDialog =  filterDialog.show()
+                .setView(dialogView)
+                .setCancelable(true)
+        val alertDialog = filterDialog.show()
 
-        viewModel.productsList.observe(viewLifecycleOwner,{products->
-           val productArray= mutableListOf<String>()
-           val statesArray= mutableListOf<String>()
-           val citiesArray= mutableListOf<String>()
+        viewModel.productsList.observe(viewLifecycleOwner, { products ->
+            val productArray = mutableListOf<String>()
+            val statesArray = mutableListOf<String>()
+            val citiesArray = mutableListOf<String>()
+            var adapterProducts: ArrayAdapter<String>
+            var adapterStates: ArrayAdapter<String>
+            var adapterCities: ArrayAdapter<String>
+            val aProducts = dialogView.findViewById<AutoCompleteTextView>(R.id.aedProducts)
+            val aCities = dialogView.findViewById<AutoCompleteTextView>(R.id.aedCities)
+            val aStates = dialogView.findViewById<AutoCompleteTextView>(R.id.aedStates)
+            val btnApply = dialogView.findViewById<Button>(R.id.applyFilter)
 
-           for (product in products){
-               productArray.add(product.product_name)
-           }
-        val adapterProducts = ArrayAdapter(requireContext(),R.layout.list_item, productArray.distinct())
-        val aProducts = dialogView.findViewById<AutoCompleteTextView>(R.id.aedProducts)
-        val aCities =  dialogView.findViewById<AutoCompleteTextView>(R.id.aedCities)
-        val aStates = dialogView.findViewById<AutoCompleteTextView>(R.id.aedStates)
-           val btnApply = dialogView.findViewById<Button>(R.id.applyFilter)
-            aProducts.setAdapter(adapterProducts)
+            for (prod in products) {
+                productArray.add(prod.product_name)
+                adapterProducts = ArrayAdapter(requireContext(), R.layout.list_item, productArray.distinct())
+                aProducts.setAdapter(adapterProducts)
 
+                aProducts.setOnItemClickListener { parent, view, position, id ->
+                    val selectedProduct = parent.getItemAtPosition(position).toString()
+                    //set state based on selected product
+                    if (prod.product_name.contains(selectedProduct)) {
+                        statesArray.clear()
+                        statesArray.add(prod.address.state)
+                    }
+                    adapterStates = ArrayAdapter(requireContext(), R.layout.list_item, statesArray.distinct())
+                    aStates.setAdapter(adapterStates)
+                    Log.d(TAG, "Product State: ${statesArray.distinct().size} ")
 
-           aProducts.setOnItemClickListener { parent, view, position, id ->
-               val selectedProduct = parent.getItemAtPosition(position).toString()
-               //set state based on selected product
-
-                   for (prod in products) {
-                       if (aProducts.text.isNotEmpty()) {
-                       if (prod.product_name.contains(selectedProduct)) {
-                           statesArray.add(prod.address.state)
-                       }
-                   }else{
-                           statesArray.add(prod.address.state)
-                       }
-               }
-               val adapterStates = ArrayAdapter(requireContext(),R.layout.list_item, statesArray.distinct())
-               aStates.setAdapter(adapterStates)
-           }
-           aStates.setOnItemClickListener { parent, view, position, id ->
-               val selectedState = parent.getItemAtPosition(position).toString()
-               //set cities based on selected state
-
-               for (prod in products){
-                   if (aStates.text.isNotEmpty()) {
-                       if (prod.address.state.contains(selectedState)) {
-                           citiesArray.add(prod.address.city)
-                       }
-                   }else{
-                       citiesArray.add(prod.address.city)
-                   }
-               }
-               val adapterCities = ArrayAdapter(requireContext(),R.layout.list_item, citiesArray.distinct())
-               aCities.setAdapter(adapterCities)
-
-
-           }
-
+                }
+                aStates.setOnItemClickListener { parent, view, position, id ->
+                        val selectedState = parent.getItemAtPosition(position).toString()
+                        //set cities based on selected state
+                        if (prod.address.state.contains(selectedState)) {
+                            citiesArray.clear()
+                            citiesArray.add(prod.address.city)
+                            adapterCities = ArrayAdapter(requireContext(), R.layout.list_item, citiesArray.distinct())
+                            aCities.setAdapter(adapterCities)
+                            Log.d(TAG, "State cities: ${citiesArray.distinct().size}")
+                        }
+                    }
+            }
             //apply filter button
-         btnApply.setOnClickListener {
-             alertDialog.dismiss()
-             Toast.makeText(requireContext(),"${aProducts.text}, ${aStates.text}, ${aCities.text}",Toast.LENGTH_SHORT).show()
-             filter(aProducts.text.toString(), aStates.text.toString(), aCities.text.toString())
-         }
-       })
+            btnApply.setOnClickListener {
+                alertDialog.dismiss()
+                Toast.makeText(requireContext(), "${aProducts.text}, ${aStates.text}, ${aCities.text}", Toast.LENGTH_SHORT).show()
+                filter(aProducts.text.toString(), aStates.text.toString(), aCities.text.toString())
+            }
+        })
     }
-    private fun filter(productName: String?,productState: String?, productCity: String?) {
-        viewModel.productsList.observe(viewLifecycleOwner,{productList ->
+
+    private fun filter(productName: String?, productState: String?, productCity: String?) {
+        viewModel.productsList.observe(viewLifecycleOwner, { productList ->
             val productsList = productList.groupBy(Product::product_name).entries.map {
-                ProductCategory(it.key,it.value)
+                ProductCategory(it.key, it.value)
             }
             Log.d(TAG, "UnfilteredList size: ${productsList.size} ")
             val filteredList = mutableListOf<ProductCategory>()
+            val filteredProducts = mutableListOf<Product>()
 
             for (category in productsList) {
                 for (product in category.products!!) {
                     if (category.productCategory.lowercase(Locale.getDefault())
-                            .contains(productName!!.lowercase(Locale.getDefault())) ||
-                        product.product_name.lowercase(Locale.getDefault())
-                            .contains(productName.lowercase(Locale.getDefault())) ||
-                        product.address.state.lowercase(Locale.getDefault())
-                            .contains(productState!!.lowercase(Locale.getDefault())) ||
-                        product.address.city.lowercase(Locale.getDefault())
-                            .contains(productCity!!.lowercase(Locale.getDefault()))
+                                    .contains(productName!!.lowercase(Locale.getDefault())) ||
+                            product.product_name.lowercase(Locale.getDefault())
+                                    .contains(productName.lowercase(Locale.getDefault())) ||
+                            product.address.state.lowercase(Locale.getDefault())
+                                    .contains(productState!!.lowercase(Locale.getDefault())) ||
+                            product.address.city.lowercase(Locale.getDefault())
+                                    .contains(productCity!!.lowercase(Locale.getDefault()))
                     ) {
+                        filteredProducts.add(product)
                         filteredList.add(category)
-                        Log.d(TAG, "FilteredList size::: ${filteredList.size}")
+                        Log.d(TAG, "FilteredList size::: ${filteredList.size}, Products: ${filteredProducts.size}/ ${productList.size} ")
                     }
                 }
             }
@@ -188,10 +179,10 @@ class Homepage : Fragment() {
 
     }
 
-    fun isNetworkAvailabale(context: Context): Boolean {
+    private fun isNetworkAvailable(context: Context): Boolean {
         val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var activeNetworkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
-        return activeNetworkInfo!=null && activeNetworkInfo.isConnectedOrConnecting
+        val activeNetworkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
     }
 
 

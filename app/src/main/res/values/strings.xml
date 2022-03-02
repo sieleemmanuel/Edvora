@@ -4,7 +4,7 @@
     <string name="hint_product_description">Description of the Product / Item</string>
     <string name="hint_location">Location</string>
     <string name="hint_product_name">Product Name</string>
-    <string name="hint_date_10_12_2021">Date: 10:12:2021</string>
+    <string name="hint_date_10_12_2021">10:12:2021</string>
     <string name="hint_brand_name">Brand Name</string>
     <string name="product_image">Product image</string>
     <string name="tv_filters_label">Filters</string>
@@ -12,4 +12,5 @@
     <string name="products_label">Product</string>
     <string name="states_label">State</string>
     <string name="btn_clear_filter_label">clear filter</string>
+
 </resources>
